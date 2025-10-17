@@ -1,41 +1,58 @@
 {
   "name": "mindscape-pwa",
-  "displayName": "MindScape PWA",
   "description": "Neurodiverse Mind Mapping Platform - Progressive Web App",
-  "type": "service",
-  "runtime": "docker",
-  "dockerfile": "Dockerfile",
-  "port": 80,
+  "serviceType": "combined",
+  "billing": {
+    "buildPlan": "nf-compute-200-4",
+    "deploymentPlan": "nf-compute-100-1"
+  },
+  "deployment": {
+    "instances": 1,
+    "resources": {
+      "cpu": "200m",
+      "memory": "512Mi"
+    }
+  },
+  "buildSettings": {
+    "dockerfile": {
+      "dockerFilePath": "/Dockerfile",
+      "dockerWorkDir": "/"
+    }
+  },
+  "source": {
+    "type": "git",
+    "projectUrl": "https://github.com/MyMindVentures/MindScape-PWA",
+    "projectType": "github",
+    "projectBranch": "main",
+    "buildType": "dockerfile",
+    "dockerfile": "Dockerfile"
+  },
   "environment": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "PORT": "80"
   },
-  "resources": {
-    "cpu": "0.1",
-    "memory": "256Mi"
-  },
-  "scaling": {
-    "minReplicas": 1,
-    "maxReplicas": 3
-  },
+  "ports": [
+    {
+      "name": "http",
+      "internalPort": 80,
+      "externalPort": 80,
+      "protocol": "HTTP",
+      "public": true
+    }
+  ],
   "healthCheck": {
     "path": "/",
     "port": 80,
-    "initialDelaySeconds": 30,
-    "periodSeconds": 10
+    "interval": 30
   },
-  "domains": [
-    {
-      "name": "mindscape-pwa",
-      "subdomain": "mindscape-pwa"
-    }
-  ],
-  "volumes": [],
-  "secrets": [],
-  "build": {
-    "context": ".",
-    "dockerfile": "Dockerfile"
+  "scaling": {
+    "minInstances": 1,
+    "maxInstances": 3,
+    "targetCPU": 70
   },
-  "deployment": {
-    "strategy": "rolling"
+  "vcsData": {
+    "projectUrl": "https://github.com/MyMindVentures/MindScape-PWA",
+    "projectType": "github",
+    "projectBranch": "main"
   }
 }

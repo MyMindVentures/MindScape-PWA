@@ -1,0 +1,41 @@
+{
+  "name": "mindscape-pwa",
+  "displayName": "MindScape PWA",
+  "description": "Neurodiverse Mind Mapping Platform - Progressive Web App",
+  "type": "service",
+  "runtime": "docker",
+  "dockerfile": "Dockerfile",
+  "port": 80,
+  "environment": {
+    "NODE_ENV": "production"
+  },
+  "resources": {
+    "cpu": "0.1",
+    "memory": "256Mi"
+  },
+  "scaling": {
+    "minReplicas": 1,
+    "maxReplicas": 3
+  },
+  "healthCheck": {
+    "path": "/",
+    "port": 80,
+    "initialDelaySeconds": 30,
+    "periodSeconds": 10
+  },
+  "domains": [
+    {
+      "name": "mindscape-pwa",
+      "subdomain": "mindscape-pwa"
+    }
+  ],
+  "volumes": [],
+  "secrets": [],
+  "build": {
+    "context": ".",
+    "dockerfile": "Dockerfile"
+  },
+  "deployment": {
+    "strategy": "rolling"
+  }
+}
